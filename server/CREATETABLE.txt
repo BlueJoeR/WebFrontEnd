@@ -1,4 +1,4 @@
-CREATE TABLE `breakfirst`.`item_list` 
+CREATE TABLE `breakfast`.`item_list` 
 (   `order_id` CHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
     `item_group` TINYINT NULL ,
     `item_no` TINYINT NULL , 
@@ -8,13 +8,13 @@ CREATE TABLE `breakfirst`.`item_list`
 ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
 
 
- CREATE TABLE `breakfirst`.`list_total` 
+ CREATE TABLE `breakfast`.`list_total` 
  ( `oreder_id` CHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
    `total` INT NOT NULL 
  ) ENGINE = InnoDB;
  
  ===============================================================================
- CREATE TABLE `breakfirst`.`order_list` 
+ CREATE TABLE `breakfast`.`order_list` 
  (  `order_id` INT(12) NOT NULL , 
 	`all_item_list` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , 
 	`total` INT NOT NULL , 
@@ -24,9 +24,9 @@ CREATE TABLE `breakfirst`.`item_list`
 {
 	"order_id":"201812140001",
 	"all_item":[
-		{"No":"1","ItemName":"00->¿N»æ","UnitPrice":"10","Quantity":"1","Subtotal":"10"},
-		{"No":"2","ItemName":"10->º~³ù","UnitPrice":"20","Quantity":"1","Subtotal":"20"},
-		{"No":"3","ItemName":"20->°¨¹aÁ¦ªd","UnitPrice":"50","Quantity":"1","Subtotal":"50"}
+		{"No":"1","ItemName":"00->ï¿½Nï¿½ï¿½","UnitPrice":"10","Quantity":"1","Subtotal":"10"},
+		{"No":"2","ItemName":"10->ï¿½~ï¿½ï¿½","UnitPrice":"20","Quantity":"1","Subtotal":"20"},
+		{"No":"3","ItemName":"20->ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½d","UnitPrice":"50","Quantity":"1","Subtotal":"50"}
 	],
 	"total":"80"
 }

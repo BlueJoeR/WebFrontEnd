@@ -45,7 +45,7 @@ function payMoney() {
     // console.log(OrderList);
     
     $.ajax({
-        url: "./server/php/breakfirst/uploadList.php",
+        url: "./server/php/breakfast/uploadList.php",
         type: "post",
         data: {
             OrderId : $("#OrderId").val()*1,
@@ -183,7 +183,7 @@ function changeTodayId() {
     nextOrderId += ( tomorrow.getMonth() < 9 ? "0" : "") + (tomorrow.getMonth() + 1);
     nextOrderId += ( tomorrow.getDate() < 10 ? "0" : "") + tomorrow.getDate();
     $.ajax({
-        url: "./server/php/breakfirst/firstOrderId.php",
+        url: "./server/php/breakfast/firstOrderId.php",
         type: "post",
         data: {
             FirstOrderId : newOrderId+"0000",

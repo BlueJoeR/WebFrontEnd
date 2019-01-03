@@ -73,7 +73,7 @@
 <?php
   // table create
   /*
-  CREATE TABLE `breakfirst`.`order_list` 
+  CREATE TABLE `breakfast`.`order_list` 
   ( `order_id` INT(12) NOT NULL , 
     `all_item_list` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , 
     `total` INT NOT NULL , 
