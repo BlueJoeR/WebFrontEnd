@@ -53,7 +53,7 @@ function payMoney() {
             Total: parseInt( $("#Total").text() , 10)
         },
         success : function(data) {
-            console.log(data);
+            // console.log(data);
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
