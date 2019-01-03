@@ -64,6 +64,8 @@
     }
   }
   $sql = "INSERT INTO `$database`.`list_total` ( `order_id`, `total` ) VALUES ( '$order_id', '$total' )";
+  echo $sql . "\n";
+  
   /* $result = $connect->query($sql); */
   $result = mysqli_query( $connect , $sql );
 

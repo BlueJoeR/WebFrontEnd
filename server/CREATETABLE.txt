@@ -4,12 +4,13 @@ CREATE TABLE `breakfast`.`item_list`
     `item_no` TINYINT NULL , 
     `item_name` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , 
     `unit_price` SMALLINT NULL , 
-    `qty` TINYINT NULL 
+    `qty` TINYINT NULL ,
+	`subtotal` TINYINT NULL
 ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
 
 
  CREATE TABLE `breakfast`.`list_total` 
- ( `oreder_id` CHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
+ ( `order_id` CHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
    `total` INT NOT NULL 
  ) ENGINE = InnoDB;
  
