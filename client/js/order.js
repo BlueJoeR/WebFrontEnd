@@ -230,14 +230,41 @@ function changeBreakfastType() {
     showStatus();
 }
 
+function showItemList() {
+
+}
+
+function changeMode() {
+    var Mode = ($("#ChangeMode").val()*1 + 1) % 2;
+    var Target = "#" + this.id;
+    switch(Mode) {
+        case 0:
+            $("#OrderId").hide();
+            $("#OrderSystem").hide();
+            $("#OrderListId").show();
+            break;
+        case 1:
+            $("#OrderId").show();
+            $("#OrderSystem").show();
+            $("#OrderListId").hide();
+            break;
+    }
+    $("#ChangeMode").val(Mode);
+    showItemList();
+}
+
 function main_order() {
     //console.log("main order start ...");
+    /** Mode **/
+    $("#OrderListId").on("change",showItemList);
+    $("#ChangeMode").on("click",changeMode);
+
     /** Breakfast Type **/ 
     $("#BF_chinese").on("click",changeBreakfastType) // 中式
     $("#BF_british").on("click",changeBreakfastType) // 英式
     $("#BF_french ").on("click",changeBreakfastType) // 法式
 
-    /** **/ 
+    /** Breakfast Item **/ 
     $("#BF_Item").on("change",showStatus);
     $("#Quantity").on("change",changeSubtoal);
 
@@ -245,8 +272,9 @@ function main_order() {
     $("#AddToList").on("click",addToOrderList);
     $("#ClearList").on("click",clearOrderList);
     $("#PayMoney").on("click",payMoney); 
-    // $(".table tbody").on("click","button",unitDelete);
+    // $(".table tr:last td:last").on("click",unitDelete);
 
+    changeMode();
     changeBreakfastType();
     changeTodayId();
 }
@@ -261,9 +289,15 @@ Price = [ [10,15,12],
           [50,35,25,15]
         ];
 
+/** Order system **/
 var OrderList = [];
 var TotalPrice = 0;
 var No = 1;
+
+/** Search system **/
+var OrderListId = [];
+var OrderListItem = [];
+var SearchId = "";
 
 var TodayId = "";
 var NowId = 0;
