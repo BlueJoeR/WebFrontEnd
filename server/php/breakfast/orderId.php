@@ -19,7 +19,8 @@
   if ( mysqli_num_rows($result) > 0 ) {
     $output = array();
     while ( $row = mysqli_fetch_assoc($result) ) {
-      array_push( $output , $row['order_id'] );
+      // array_push( $output , $row['order_id'] );
+      $output[] = $row['order_id'];
     }
     $json = json_encode($output);
     echo $json;

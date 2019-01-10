@@ -110,7 +110,7 @@ function addToOrderList() {
                     <i class="fas fa-minus"></i>
                 </button>
             </td>
-        </td>
+        </tr>
     `;
     $("#OrderList").append(output);
     
@@ -123,6 +123,10 @@ function addToOrderList() {
 }
 
 function clearOrderList() {
+    for ( var i in OrderList ) {
+        var target = "#UnitDelete_" + (i*1+1);
+        $(target).off("click",unitDelete);
+    }
     //$("#OrderList tr").remove();
     $("#OrderList").empty();
     OrderList.length = 0;
@@ -230,25 +234,142 @@ function changeBreakfastType() {
     showStatus();
 }
 
-function showItemList() {
+function clearItemList() {
+    if ( Mode != '1' ) {
+        for ( var i in OrderList ) {
+            var btnId = "#UnitDelete_" + (i*1+1);
+            $(btnId).off("click",unitDelete);
+        }
+    }
+    $("#OrderList").empty();
+    changeTotal(0);
+}
 
+function showItemList() {
+    clearItemList();
+    switch( Mode ) {
+        case 0:
+            // Search
+            SearchId = OrderListId[$("#OrderListId option:selected").val()];
+            // getOrderItemList();
+            $.ajax({
+                url: "./server/php/breakfast/getOrderItemList.php",
+                type: "POST",
+                data: {
+                    OrderId: SearchId
+                },
+                success: function(response) {
+                    console.log(response);
+                    ressult = JSON.parse(response);
+                    OrderListItem = ressult.order_list;
+                    console.log(OrderListItem);
+                    changeTotal(ressult.order_total.total*1);
+                }
+            }).done(function(){
+            console.log(OrderListItem);
+            for ( var i in OrderListItem ) {
+                console.log(OrderListItem[i]);
+                var output = `
+                    <tr>
+                        <th>${OrderListItem[i].item_no}</th>
+                        <td>${OrderListItem[i].item_name}</td>
+                        <td>${OrderListItem[i].unit_price}</td>
+                        <td>${OrderListItem[i].qty}</td>
+                        <td>${OrderListItem[i].subtotal}</td>
+                        <td></td>
+                    </tr>
+                `;
+                $("#OrderList").append(output);
+            }
+        });
+            break;
+        case 1:
+            // Order
+            for ( var i in OrderList ) {
+                var thisNo = i*1 + 1;
+                var output = `
+                    <tr id="data_${thisNo}">
+                        <th id="index_${thisNo}">${thisNo}</th>
+                        <td>${OrderList[i].ItemName}</td>
+                        <td>${OrderList[i].UnitPrice}</td>
+                        <td>${OrderList[i].Quantity}</td>
+                        <td>${OrderList[i].Subtotal}</td>
+                        <td>
+                            <button type="button" id="UnitDelete_${thisNo}" class="btn btn-danger">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                $("#OrderList").append(output);
+                
+                var btnId = "#UnitDelete_" + thisNo;
+                $(btnId).on("click",unitDelete);
+                
+                changeTotal( parseInt(Subtotal,10) );
+            }
+            break;
+    }
+}
+
+// function getOrderItemList() {
+//     $.ajax({
+//         url: "./server/php/breakfast/getOrderItemList.php",
+//         type: "POST",
+//         data: {
+//             OrderId: SearchId
+//         },
+//         success: function(response) {
+//             console.log(response);
+//             ressult = JSON.parse(response);
+//             OrderListItem = ressult.order_list;
+//             console.log(OrderListItem);
+//             changeTotal(ressult.order_total.total*1);
+//         }
+//     });
+// }
+
+function setSelectId() {
+    $("#OrderListId option").remove();
+    for ( var i in OrderListId ) {
+        var newOption = new Option(OrderListId[i],i,(i==0),(i==0));
+        $("#OrderListId").append(newOption);
+    }
+}
+
+function getSelectId() {
+    $.ajax({
+        url: "./server/php/breakfast/orderId.php",
+        type: "POST",
+        success: function( response ) {
+            // console.log(JSON.parse(response));
+            OrderListId = JSON.parse(response);
+        }
+    });
 }
 
 function changeMode() {
-    var Mode = ($("#ChangeMode").val()*1 + 1) % 2;
-    var Target = "#" + this.id;
+    Mode = ($("#ChangeMode").val()*1 + 1) % 2
+
+    if ( OrderListId.length == 0 ) {
+        getSelectId();
+    }
     switch(Mode) {
         case 0:
+            // Search
             $("#OrderId").hide();
             $("#OrderSystem").hide();
             $("#OrderListId").show();
+            setSelectId();
             break;
         case 1:
+            // Order
             $("#OrderId").show();
             $("#OrderSystem").show();
             $("#OrderListId").hide();
             break;
     }
+    
     $("#ChangeMode").val(Mode);
     showItemList();
 }
@@ -272,7 +393,7 @@ function main_order() {
     $("#AddToList").on("click",addToOrderList);
     $("#ClearList").on("click",clearOrderList);
     $("#PayMoney").on("click",payMoney); 
-    // $(".table tr:last td:last").on("click",unitDelete);
+    // $(".table #OrderList tr:last td:last .btn .btn-danger").on("click",showItemList);
 
     changeMode();
     changeBreakfastType();
@@ -299,5 +420,6 @@ var OrderListId = [];
 var OrderListItem = [];
 var SearchId = "";
 
+var Mode = 0;
 var TodayId = "";
 var NowId = 0;
